@@ -1,8 +1,8 @@
-let nickname = prompt("Welcome to Marvel, What is your name?");
-if (nickname != null) {
-  document.getElementById("welcome").innerText =
-    "Hello " + nickname + ", welcome to the Marvel Search Engine" + "!";
-}
+// let nickname = prompt("Welcome to Marvel, What is your name?");
+// if (nickname != null) {
+//   document.getElementById("welcome").innerText =
+//     "Hello " + nickname + ", welcome to the Marvel Search Engine" + "!";
+// }
 const input = document.querySelector("#input");
 const button = document.querySelector("#button");
 const section = document.querySelector("#section");
@@ -23,18 +23,18 @@ async function getDataFromServer(userInput) {
 
 button.addEventListener("click", async () => {
   let responseFromServer = await getDataFromServer(input.value);
-  (section.innerHTML = responseFromServer.data.results[0].description),
-});
-
-const createHeroHtml = (hero, description) => `
-  <div class="card">            
-        <div><h1>${hero}</h1></div>
-        <div><h1>${description}</h1></div>
-      </div> 
+  console.log(responseFromServer);
+  const createHeroHtml = (hero, description, image) => `
+  <div class="card">
+        <div><h1>${hero}</h1> <p>${description}</p></div>
+        <div><img src = ${image} /></div>
+      </div>
 `;
-getData(input.value).then((data) => {
   const hero = responseFromServer.data.results[0].name;
   const description = responseFromServer.data.results[0].description;
-  const divdHtml = createHeroHtml(hero, description);
-  section.innerHtml = divHtml;
+  const image = responseFromServer.data.results[0].thumbnail.path;
+  const URL = responseFromServer.data.results[0].thumbnail.extension;
+  const imageURL = image + "." + URL;
+  const divHtml = createHeroHtml(hero, description, imageURL);
+  section.innerHTML = divHtml;
 });
