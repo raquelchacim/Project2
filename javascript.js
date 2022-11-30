@@ -1,8 +1,27 @@
-// let nickname = prompt("Welcome to Marvel, What is your name?");
-// if (nickname != null) {
-//   document.getElementById("welcome").innerText =
-//     "Hello " + nickname + ", welcome to the Marvel Search Engine" + "!";
-// }
+let nickname = prompt("Welcome to Marvel, What is your name?");
+if (nickname != null) {
+  document.getElementById("welcome").innerText =
+    "Hello " + nickname + ", welcome to the Marvel Search Engine" + "!";
+}
+
+
+logo.addEventListener('mouseenter', () => {
+  logo.src = 'images/logo2.jpg';
+});
+
+logo.addEventListener('mouseleave', () => {
+  logo.src = 'images/logo.jpg';
+});
+
+const cards = document.querySelectorAll('.card');
+[...cards].forEach((card)=>{
+  card.addEventListener( 'click', function() {
+    card.classList.toggle('is-flipped');
+  });
+});
+
+//
+
 const input = document.querySelector("#input");
 const button = document.querySelector("#button");
 const section = document.querySelector("#section");
@@ -25,10 +44,31 @@ button.addEventListener("click", async () => {
   let responseFromServer = await getDataFromServer(input.value);
   console.log(responseFromServer);
   const createHeroHtml = (hero, description, image) => `
-  <div class="card">
-        <div><h1>${hero}</h1> <p>${description}</p></div>
-        <div><img src = ${image} /></div>
-      </div>
+  <div class="hero-div">
+        <div class="left"><h1>${hero}</h1> <p>${description}</p></div>
+        <div class ="right""><img src = "${image}" class="herothumbnail"/></div>
+      </div> <br>
+
+  <section class="comicslist"> 
+ <div class="comicsinfo">
+  <img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
+  <h3> Comic Title</h3> <br>
+  <p> Lorem ipsum </p>
+</div> 
+
+<div class="comicsinfo">
+<img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
+<h3> Comic Title</h3> <br>
+<p> Lorem ipsum </p>
+</div> 
+
+<div class="comicsinfo">
+<img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
+<h3> Comic Title</h3> <br>
+<p> Lorem ipsum </p>
+</div> 
+
+</section>
 `;
   const hero = responseFromServer.data.results[0].name;
   const description = responseFromServer.data.results[0].description;
@@ -38,3 +78,23 @@ button.addEventListener("click", async () => {
   const divHtml = createHeroHtml(hero, description, imageURL);
   section.innerHTML = divHtml;
 });
+
+const modal = document.querySelector(".modal");
+const trigger = document.querySelector(".trigger");
+const closeButton = document.querySelector(".close-button");
+
+function toggleModal() {
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal();
+    }
+}
+
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
+
+//

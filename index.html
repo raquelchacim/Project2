@@ -12,7 +12,7 @@
 
 <body>
 
-  <div class="nav"><img src="images/logo.svg" alt="Marvel" width="100" height="50" /></div>
+  <div class="nav"><a href="https://www.marvel.com/"><img src="images/logo.jpg" id= "logo" class="logo" alt="Marvel" width="100" height="50" cursor="pointer";/></a> <button class="trigger" style="background-color: #000; color: white; padding: 8px 12px 8px 12px ; text-transform: uppercase; border-style: none; cursor: pointer;">Get Facts</button></div>
 
   <div id="container" class="container">
     <div>
@@ -21,44 +21,46 @@
     <div>
       <h2>Type in your favourite superhero!</h2>
     </div>
-    <input type="text" class="input" id="input" />
-    <button id="button" class="seach">Search</button>
+    <input type="text" class="input" id="input" style="background-color: #f3f3f3; padding: 7px; border: 1px"/>
+    <button id="button" class="seach" style="background-color: red; color: white; padding: 8px; text-transform: uppercase; border-style: none; cursor: pointer;">Search</button>
   </div>
   <div>
   </div>
 <section id="section">
 
-</section> 
+</section>
 
- <!-- <Section class="comics">
-<div class="comic"> 
-  <div class="comic_cover">
-  <img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
-</div>
-<div class="comic_info">
-  <p> lorem ipsum</p>
-</div> 
+<div class="modal">
+  <div class="modal-content">
+      <span class="close-button">×</span>
+      <h2>Did you know...</h2>
+      <div class="latest">
+      <div class="scene scene--card">
+        <div class="card">
+          <div class="card__face card__face--front"><img src="images/blackpanther.png" alt="Black Panther " width="50" height="50" /></div>
+          <div class="card__face card__face--back"><p><b>The people of Wakanda speak a real language.</b><br>
+            Wakanda’s official language is a variant of Xhosa, which is primarily spoken in Zimbabwe and South Africa. </p></div>
+        </div></div>
+        <div class="scene scene--card">
+          <div class="card">
+            <div class="card__face card__face--front"><img src="images/spiderman.png" alt="Spider-Man " width="50" height="50" /></div>
+            <div class="card__face card__face--back"><p><b>Michael Jackson once tried to buy Marvel Comics. </b><br>
+              The reason? He wanted to star as Spider-Man in his version of the movie.</p></div>
+          </div></div>
+          <div class="scene scene--card">
+            <div class="card">
+              <div class="card__face card__face--front"><img src="images/hulk.png" alt="Hulk " width="50" height="50" /></div>
+              <div class="card__face card__face--back"><p><b>Originally, the Hulk had grey skin. </b><br>
+                When the Hulk was first introduced in the comics, he was green-skinned due to a printing error with the four-color printing process. </p></div>
+            </div></div>
+          </div>
+  </div>
 </div>
 
-<div class="comic"> 
-  <div class="comic_cover">
-  <img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
-</div>
-<div class="comic_info">
-  <p> lorem ipsum</p>
-</div> 
-</div>
-
-<div class="comic"> 
-  <div class="comic_cover">
-  <img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
-</div>
-<div class="comic_info">
-  <p> lorem ipsum</p>
-</div> 
-</div>
-
-</Section> -->
+		
+<footer>
+  <div class="footer" width="100" height="50"><p style=" font-size:12px;">Data provided by Marvel. © 2022 MARVEL</p></div>
+</footer>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
   <script src="javascript.js" defer></script>
