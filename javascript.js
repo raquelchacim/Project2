@@ -4,21 +4,40 @@ if (nickname != null) {
     "Hello " + nickname + ", welcome to the Marvel Search Engine" + "!";
 }
 
-
-logo.addEventListener('mouseenter', () => {
-  logo.src = 'images/logo2.jpg';
+logo.addEventListener("mouseenter", () => {
+  logo.src = "images/logo2.jpg";
 });
 
-logo.addEventListener('mouseleave', () => {
-  logo.src = 'images/logo.jpg';
+logo.addEventListener("mouseleave", () => {
+  logo.src = "images/logo.jpg";
 });
 
-const cards = document.querySelectorAll('.card');
-[...cards].forEach((card)=>{
-  card.addEventListener( 'click', function() {
-    card.classList.toggle('is-flipped');
+const cards = document.querySelectorAll(".card");
+[...cards].forEach((card) => {
+  card.addEventListener("click", function () {
+    card.classList.toggle("is-flipped");
   });
 });
+
+//
+
+const modal = document.querySelector(".modal");
+const trigger = document.querySelector(".trigger");
+const closeButton = document.querySelector(".close-button");
+
+function toggleModal() {
+  modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+  if (event.target === modal) {
+    toggleModal();
+  }
+}
+
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
 
 //
 
@@ -32,12 +51,23 @@ async function getDataFromServer(userInput) {
   var ts = new Date().getTime();
   var message = ts + pvtkey + pubkey;
   var a = CryptoJS.MD5(message);
-  const response = await fetch(
+  const generalresponse = await fetch(
     `https://gateway.marvel.com:443/v1/public/characters?name=${userInput}&apikey=6354ef8d02fe26b9df9dbdef92a700a5&ts=${ts}&hash=${a.toString()}`,
     {}
   );
-  const data = await response.json();
-  return data;
+  const generaldata = await generalresponse.json();
+  const comicresponse = await fetch(
+    `https://gateway.marvel.com:443/v1/public/comics?characters=${
+      generaldata.data.results[0].id
+    }&apikey=6354ef8d02fe26b9df9dbdef92a700a5&ts=${ts}&hash=${a.toString()}`,
+    {}
+  );
+  const comicdata = await comicresponse.json();
+  console.log(comicdata);
+  return {
+    api1: generaldata,
+    api2: comicdata,
+  };
 }
 
 button.addEventListener("click", async () => {
@@ -47,54 +77,37 @@ button.addEventListener("click", async () => {
   <div class="hero-div">
         <div class="left"><h1>${hero}</h1> <p>${description}</p></div>
         <div class ="right""><img src = "${image}" class="herothumbnail"/></div>
-      </div> <br>
-
-  <section class="comicslist"> 
- <div class="comicsinfo">
-  <img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
-  <h3> Comic Title</h3> <br>
-  <p> Lorem ipsum </p>
+    
+      </div>
+      <center><h2> Featured Comics </h2></center>
+`;
+  const createComicHtml = (comicTitle, comicDescription, imageSource) => `
+<section class="comicssection"> 
+<div class="comicscard">
+ <img src="${imageSource}"/>
+ <h3>${comicTitle}</h3> <br>
+ <p>${comicDescription}</p>
 </div> 
-
-<div class="comicsinfo">
-<img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
-<h3> Comic Title</h3> <br>
-<p> Lorem ipsum </p>
-</div> 
-
-<div class="comicsinfo">
-<img src="https://upload.wikimedia.org/wikipedia/en/a/aa/Hulk_%28circa_2019%29.png"/>
-<h3> Comic Title</h3> <br>
-<p> Lorem ipsum </p>
-</div> 
-
 </section>
 `;
-  const hero = responseFromServer.data.results[0].name;
-  const description = responseFromServer.data.results[0].description;
-  const image = responseFromServer.data.results[0].thumbnail.path;
-  const URL = responseFromServer.data.results[0].thumbnail.extension;
+  const hero = responseFromServer.api1.data.results[0].name;
+  const description = responseFromServer.api1.data.results[0].description;
+  const image = responseFromServer.api1.data.results[0].thumbnail.path;
+  const URL = responseFromServer.api1.data.results[0].thumbnail.extension;
   const imageURL = image + "." + URL;
   const divHtml = createHeroHtml(hero, description, imageURL);
-  section.innerHTML = divHtml;
+
+  const comicArray = responseFromServer.api2.data.results;
+  let comicHtml = "";
+  comicArray.forEach((item) => {
+    const comicTitle = item.title;
+    const comicDescription = item.description;
+    const imageSource = item.thumbnail.path;
+    const imageExtension = item.thumbnail.extension;
+    const imageURLtwo = imageSource + "." + imageExtension;
+    comicHtml =
+      comicHtml + createComicHtml(comicTitle, comicDescription, imageURLtwo);
+  });
+
+  section.innerHTML = divHtml + comicHtml;
 });
-
-const modal = document.querySelector(".modal");
-const trigger = document.querySelector(".trigger");
-const closeButton = document.querySelector(".close-button");
-
-function toggleModal() {
-    modal.classList.toggle("show-modal");
-}
-
-function windowOnClick(event) {
-    if (event.target === modal) {
-        toggleModal();
-    }
-}
-
-trigger.addEventListener("click", toggleModal);
-closeButton.addEventListener("click", toggleModal);
-window.addEventListener("click", windowOnClick);
-
-//
